@@ -64,8 +64,8 @@ describe('installment', () => {
       const { token } = loginResponse.data.login;
       return request({
         query: `
-          query installments {
-            installments(startDate:"2021/01/01", endDate: "2021/03/10" ) {
+          query installmentsByDateRange {
+            installmentsByDateRange(startDate:"2021/01/01", endDate: "2021/03/10" ) {
               id
             }
           }
@@ -73,10 +73,10 @@ describe('installment', () => {
       })
         .set('Authorization', `Bearer ${token}`)
         .expect((res) => {
-          expect(res.body).toHaveProperty('data.installments');
-          expect(res.body.data.installments).toHaveLength(3);
+          expect(res.body).toHaveProperty('data.installmentsByDateRange');
+          expect(res.body.data.installmentsByDateRange).toHaveLength(3);
 
-          installmentId = res.body.data.installments[0].id;
+          installmentId = res.body.data.installmentsByDateRange[0].id;
         });
     });
   });
@@ -105,4 +105,50 @@ describe('installment', () => {
   });
 
   // TODO add test for when the installment is already paid
+
+  describe('list by paid status', () => {
+    it('should list the installments that are not paid', () => {
+      const { token } = loginResponse.data.login;
+      return request({
+        query: `
+          query installments {
+            installments(paid: false) {
+              id
+              bill {
+                name
+                total
+              }
+            }
+          }
+        `,
+      })
+        .set('Authorization', `Bearer ${token}`)
+        .expect((res) => {
+          expect(res.body).toHaveProperty('data.installments');
+          expect(res.body.data.installments).toHaveLength(6);
+        });
+    });
+
+    it('should list the installments that are already paid', () => {
+      const { token } = loginResponse.data.login;
+      return request({
+        query: `
+          query installments {
+            installments(paid: true) {
+              id
+              bill {
+                name
+                total
+              }
+            }
+          }
+        `,
+      })
+        .set('Authorization', `Bearer ${token}`)
+        .expect((res) => {
+          expect(res.body).toHaveProperty('data.installments');
+          expect(res.body.data.installments).toHaveLength(1);
+        });
+    });
+  });
 });

@@ -116,7 +116,7 @@ describe('user', () => {
         .expect(200);
     });
 
-    it('should not return a profile when not logged in', () => {
+    it('should return an error when not logged in', () => {
       return request({
         query: `
             query me {
@@ -130,12 +130,11 @@ describe('user', () => {
           `,
       }).expect((res) => {
         expect(res.body).toHaveProperty('errors');
-        expect(res.body.data.me).toEqual(null);
         expect(Array.isArray(res.body.errors)).toBe(true);
       });
     });
 
-    it('should succesfully return the profile from me', () => {
+    it('should successfully return the profile from me', () => {
       const { token } = loginResponse.data.login;
 
       return request({

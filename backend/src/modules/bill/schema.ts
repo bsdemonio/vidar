@@ -23,7 +23,7 @@ const typeDefs = gql`
     name: String
     installments: [Installment]
     installmentsNumber: Int
-    total: Int
+    total: Float
     balance: Float
   }
 `;

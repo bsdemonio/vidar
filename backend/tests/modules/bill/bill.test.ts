@@ -83,6 +83,39 @@ describe('bill', () => {
           billId = res.body.data.createBill.id;
         });
     });
+
+    it('should create a new bill with float amounts', () => {
+      const { token } = loginResponse.data.login;
+      return request({
+        query: `
+          mutation {
+            createBill(
+              name: "test2",
+              installments: 3,
+              amount: 200.3,
+              recurrenceNumber: 1,
+              recurrenceSpan: "M",
+              date: "2022/01/01"
+            ) {
+              id
+              name
+              total
+              installments {
+                number
+                dueDate
+              }
+            }
+          }
+        `,
+      })
+        .set('Authorization', `Bearer ${token}`)
+        .expect((res) => {
+          expect(res.body).toHaveProperty('data.createBill.id');
+          expect(res.body).toHaveProperty('data.createBill.name', 'test2');
+          expect(res.body).toHaveProperty('data.createBill.installments');
+          expect(res.body.data.createBill.installments).toHaveLength(3);
+        });
+    });
   });
 
   describe('list', () => {
@@ -93,6 +126,7 @@ describe('bill', () => {
           query bills {
             bills {
               name
+              total
               installments {
                 number
                 dueDate
@@ -104,8 +138,7 @@ describe('bill', () => {
         .set('Authorization', `Bearer ${token}`)
         .expect((res) => {
           expect(res.body).toHaveProperty('data.bills');
-          expect(res.body.data.bills).toHaveLength(1);
-          expect(res.body.data.bills[0].installments).toHaveLength(12);
+          expect(res.body.data.bills).toHaveLength(2);
         });
     });
   });

@@ -27,8 +27,18 @@
     |    ├── models              # Mongo models
     |    ├── modules             # GraphQL module (include schema and resolvers)
     |    ├── scalars             # Custom GraphQL types http://spec.graphql.org/draft/#sec-Scalars
-    |    └── utils               # Shared functions acrross the project
+    |    └── utils               # Shared functions across the project
     └── tests
+
+## Setup Development Env
+
+- Clone the repository
+- Run `yarn install` to install dependencies
+- Make a copy of the `.env.sample` file and rename it to `.env`
+- Install mongodb https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
+- Create a new database and set the URI in the .env file i.e. `mongodb://localhost:27017/vidar`
+
+## Deploy to Heroku
 
 ## Scripts
 
