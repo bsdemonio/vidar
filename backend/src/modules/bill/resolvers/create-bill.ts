@@ -11,6 +11,8 @@ type Args = {
   recurrenceNumber: number;
   recurrenceSpan: 'y' | 'M' | 'w' | 'd';
   date: string;
+  category: string;
+  placeToPay: string;
 };
 
 type Context = {
@@ -19,16 +21,35 @@ type Context = {
 
 const createBill = async (_parent: any, args: Args, context: Context) => {
   const { user } = context;
-  const { name, amount, installments, recurrenceNumber, recurrenceSpan, date } = args;
+  const {
+    name,
+    amount,
+    installments,
+    recurrenceNumber,
+    recurrenceSpan,
+    date,
+    category,
+    placeToPay,
+  } = args;
+
+  const initialDate = new Date(date);
+
+  const finalDate = moment(initialDate)
+    .add(installments - 1 * recurrenceNumber, recurrenceSpan)
+    .toDate();
 
   const total = installments * amount;
 
   const newBill = await Bill.create({
     user: user.id,
     name,
+    initialDate: moment(initialDate).toDate(),
+    category,
     installmentsNumber: installments,
     total,
     balance: total,
+    finalDate,
+    placeToPay,
   });
 
   const installmentsToCreate = [];
@@ -37,7 +58,7 @@ const createBill = async (_parent: any, args: Args, context: Context) => {
     installmentsToCreate.push({
       bill: newBill.id,
       number: i + 1,
-      dueDate: moment(new Date(date))
+      dueDate: moment(initialDate)
         .add(i * recurrenceNumber, recurrenceSpan)
         .toDate(),
       amount,
@@ -47,7 +68,14 @@ const createBill = async (_parent: any, args: Args, context: Context) => {
 
   const newInstallments = await Installment.create(installmentsToCreate);
 
-  return { id: newBill.id, name: newBill.name, installments: newInstallments };
+  return {
+    id: newBill.id,
+    name: newBill.name,
+    initialDate: newBill.initialDate,
+    finalDate: newBill.finalDate,
+    placeToPay: newBill.placeToPay,
+    installments: newInstallments,
+  };
 };
 
 export default createBill;

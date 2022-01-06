@@ -5,9 +5,13 @@ import Installment from './installment';
 export type IBill = {
   user: string;
   name: string;
+  category: string;
   installmentsNumber: number;
   total: number;
   balance: number;
+  initialDate: Date;
+  finalDate: Date;
+  placeToPay: string;
 } & mongoose.Document;
 
 export const billSchema = new mongoose.Schema({
@@ -17,6 +21,10 @@ export const billSchema = new mongoose.Schema({
     required: true,
   },
   name: {
+    type: String,
+    required: true,
+  },
+  category: {
     type: String,
     required: true,
   },
@@ -31,6 +39,17 @@ export const billSchema = new mongoose.Schema({
   balance: {
     type: Number,
     required: true,
+  },
+  initialDate: {
+    type: Date,
+    required: true,
+  },
+  finalDate: {
+    type: Date,
+    required: true,
+  },
+  placeToPay: {
+    type: String,
   },
 });
 

@@ -49,10 +49,15 @@ describe('bill', () => {
               amount: 200,
               recurrenceNumber: 1,
               recurrenceSpan: "M",
-              date: "2021/01/01"
+              date: "2021/01/01",
+              category: "house",
+              placeToPay: "cash"
             ) {
               id
               name
+              initialDate
+              finalDate
+              placeToPay
               installments {
                 number
                 dueDate
@@ -65,7 +70,10 @@ describe('bill', () => {
         .expect((res) => {
           expect(res.body).toHaveProperty('data.createBill.id');
           expect(res.body).toHaveProperty('data.createBill.name', 'test');
+          expect(res.body).toHaveProperty('data.createBill.placeToPay', 'cash');
           expect(res.body).toHaveProperty('data.createBill.installments');
+          expect(res.body.data.createBill.initialDate).toBe('2021/01/01');
+          expect(res.body.data.createBill.finalDate).toBe('2021/12/01');
           expect(res.body.data.createBill.installments).toHaveLength(12);
           expect(res.body.data.createBill.installments[0].dueDate).toBe('2021/01/01');
           expect(res.body.data.createBill.installments[1].dueDate).toBe('2021/02/01');
@@ -95,7 +103,8 @@ describe('bill', () => {
               amount: 200.3,
               recurrenceNumber: 1,
               recurrenceSpan: "M",
-              date: "2022/01/01"
+              date: "2022/01/01",
+              category: "house"
             ) {
               id
               name

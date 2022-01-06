@@ -13,6 +13,8 @@ const typeDefs = gql`
       recurrenceNumber: Int!
       recurrenceSpan: String!
       date: String!
+      category: String!
+      placeToPay: String
     ): Bill @isAuthenticated
 
     deleteBill(id: ID!): Bill @isAuthenticated
@@ -21,10 +23,14 @@ const typeDefs = gql`
   type Bill {
     id: String
     name: String
+    category: String
+    initialDate: Date
+    finalDate: Date
     installments: [Installment]
     installmentsNumber: Int
     total: Float
     balance: Float
+    placeToPay: String
   }
 `;
 

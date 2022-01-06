@@ -45,7 +45,8 @@ describe('installment', () => {
             amount: 200,
             recurrenceNumber: 1,
             recurrenceSpan: "M",
-            date: "2021/01/01"
+            date: "2021/01/01",
+            category: "house"
           ) {
             id
             name
