@@ -12,6 +12,7 @@ const testUser = {
 describe('installment', () => {
   let loginResponse: any = null;
   let installmentId: string;
+  let billId: string;
 
   before(async () => {
     await request({
@@ -57,7 +58,12 @@ describe('installment', () => {
           }
         }
       `,
-    }).set('Authorization', `Bearer ${loginResponse.data.login.token}`);
+    })
+      .set('Authorization', `Bearer ${loginResponse.data.login.token}`)
+      .expect((res) => {
+        expect(res.body).toHaveProperty('data.createBill.id');
+        billId = res.body.data.createBill.id;
+      });
   });
 
   describe('list', () => {
@@ -78,6 +84,26 @@ describe('installment', () => {
           expect(res.body.data.installmentsByDateRange).toHaveLength(3);
 
           installmentId = res.body.data.installmentsByDateRange[0].id;
+        });
+    });
+  });
+
+  describe('list by bill id', () => {
+    it('should list the installments from an specific bill', () => {
+      const { token } = loginResponse.data.login;
+      return request({
+        query: `
+          query installmentsByBillId {
+            installmentsByBillId(billId: "${billId}" ) {
+              id
+            }
+          }
+        `,
+      })
+        .set('Authorization', `Bearer ${token}`)
+        .expect((res) => {
+          expect(res.body).toHaveProperty('data.installmentsByBillId');
+          expect(res.body.data.installmentsByBillId).toHaveLength(4);
         });
     });
   });
@@ -104,8 +130,6 @@ describe('installment', () => {
         });
     });
   });
-
-  // TODO add test for when the installment is already paid
 
   describe('list by paid status', () => {
     it('should list the installments that are not paid', () => {

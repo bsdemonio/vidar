@@ -5,6 +5,7 @@ const typeDefs = gql`
     installment(id: ID!): Installment @isAuthenticated
     installmentsByDateRange(startDate: String!, endDate: String!): [Installment] @isAuthenticated
     installments(paid: Boolean!): [Installment] @isAuthenticated
+    installmentsByBillId(billId: ID!): [Installment] @isAuthenticated
   }
 
   extend type Mutation {
