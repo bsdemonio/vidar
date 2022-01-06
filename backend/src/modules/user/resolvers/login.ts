@@ -29,15 +29,15 @@ const login = async (_parent: any, args: Args) => {
   const token = tokenUtil.create(user.id);
 
   return {
-    user: {
-      lastName: user.lastName,
-      firstName: user.firstName,
-      email: user.email,
-      id: user.id,
-      created: user.created,
-    },
     token,
     tokenExpiration: config.JwtLifeTime,
+    user: {
+      created: user.created,
+      email: user.email,
+      firstName: user.firstName,
+      id: user.id,
+      lastName: user.lastName,
+    },
   };
 };
 

@@ -41,40 +41,40 @@ const createBill = async (_parent: any, args: Args, context: Context) => {
   const total = installments * amount;
 
   const newBill = await Bill.create({
-    user: user.id,
-    name,
-    initialDate: moment(initialDate).toDate(),
-    category,
-    installmentsNumber: installments,
-    total,
     balance: total,
+    category,
     finalDate,
+    initialDate: moment(initialDate).toDate(),
+    installmentsNumber: installments,
+    name,
     placeToPay,
+    total,
+    user: user.id,
   });
 
   const installmentsToCreate = [];
 
   for (let i = 0; i < installments; i += 1) {
     installmentsToCreate.push({
+      amount,
       bill: newBill.id,
-      number: i + 1,
       dueDate: moment(initialDate)
         .add(i * recurrenceNumber, recurrenceSpan)
         .toDate(),
-      amount,
       isPaid: false,
+      number: i + 1,
     });
   }
 
   const newInstallments = await Installment.create(installmentsToCreate);
 
   return {
-    id: newBill.id,
-    name: newBill.name,
-    initialDate: newBill.initialDate,
     finalDate: newBill.finalDate,
-    placeToPay: newBill.placeToPay,
+    id: newBill.id,
+    initialDate: newBill.initialDate,
     installments: newInstallments,
+    name: newBill.name,
+    placeToPay: newBill.placeToPay,
   };
 };
 

@@ -4,9 +4,9 @@ import request from '../../request-helper';
 
 const testUser = {
   email: 'test-user@gmail.com',
-  password: 'test1234',
   firstName: 'test',
   lastName: 'user',
+  password: 'test1234',
 };
 
 describe('installment', () => {

@@ -10,9 +10,9 @@ const mongoHost = new url.URL(config.MongoDbURI).host;
 
 const startServer = async () => {
   const mongooseOptions = {
+    promiseLibrary: global.Promise,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    promiseLibrary: global.Promise,
   };
 
   try {
@@ -31,7 +31,7 @@ const startServer = async () => {
 
 // Let's make Node.js clustered for better multi-core performance
 throng({
+  lifetime: Infinity,
   start: startServer,
   workers: config.Workers,
-  lifetime: Infinity,
 });

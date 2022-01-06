@@ -5,12 +5,12 @@ import createBill from './create-bill';
 import deleteBill from './delete-bill';
 
 const resolvers: IResolvers = {
-  Query: {
-    bills,
-  },
   Mutation: {
     createBill,
     deleteBill,
+  },
+  Query: {
+    bills,
   },
 };
 

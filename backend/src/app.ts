@@ -5,7 +5,6 @@ import schema from './modules';
 import getUser from './utils/context';
 
 const server = new ApolloServer({
-  schema,
   context: async ({ req }: { req: Request }) => ({
     user: await getUser(req),
   }),
@@ -29,13 +28,14 @@ const server = new ApolloServer({
       },
     },
   ],
+  schema,
 });
 
 const app = express();
 
 server.applyMiddleware({
-  path: '/',
   app,
+  path: '/',
 });
 
 export default app;

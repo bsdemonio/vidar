@@ -9,25 +9,25 @@ export type IInstallment = {
 } & mongoose.Document;
 
 export const installmentSchema = new mongoose.Schema({
+  amount: {
+    required: true,
+    type: Number,
+  },
   bill: {
-    type: Schema.Types.ObjectId,
     ref: 'Bill',
     required: true,
-  },
-  number: {
-    type: Number,
-    required: true,
+    type: Schema.Types.ObjectId,
   },
   dueDate: {
+    required: true,
     type: Date,
-    required: true,
-  },
-  amount: {
-    type: Number,
-    required: true,
   },
   isPaid: {
     type: Boolean,
+  },
+  number: {
+    required: true,
+    type: Number,
   },
 });
 

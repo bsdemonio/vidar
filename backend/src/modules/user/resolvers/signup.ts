@@ -27,18 +27,18 @@ const signup = async (_parent: any, args: Args) => {
 
     const user = await User.create({
       email,
-      hashedPassword,
       firstName,
+      hashedPassword,
       lastName,
     });
 
     return {
-      lastName: user.lastName,
-      firstName: user.firstName,
-      email: user.email,
       created: user.created,
-      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
       hashedPassword: null,
+      id: user.id,
+      lastName: user.lastName,
     };
   } catch (error) {
     throw new Error(error);

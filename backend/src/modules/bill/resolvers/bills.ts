@@ -11,10 +11,10 @@ const bills = async (_parent: any, _args: any, context: Context) => {
   const dbBills = await Bill.find({ user: user.id });
 
   return dbBills.map(async (bill) => ({
+    installments: await Installment.find({ bill: bill.id }),
+    installmentsNumber: bill.installmentsNumber,
     name: bill.name,
     total: bill.total,
-    installmentsNumber: bill.installmentsNumber,
-    installments: await Installment.find({ bill: bill.id }),
   }));
 };
 

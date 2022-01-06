@@ -24,6 +24,6 @@ class IsAuthenticatedDirective extends SchemaDirectiveVisitor {
 }
 
 export default {
-  typeDef,
   directive: IsAuthenticatedDirective,
+  typeDef,
 };

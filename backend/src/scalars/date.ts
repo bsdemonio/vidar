@@ -7,14 +7,8 @@ const typeDef = gql`
 `;
 
 const DateScalar = new GraphQLScalarType({
-  name: 'Date',
   description: 'A Date formatted YYYY/MM/DD',
-  parseValue(value) {
-    return value;
-  },
-  serialize(value) {
-    return moment(new Date(value)).format('YYYY/MM/DD');
-  },
+  name: 'Date',
   parseLiteral(ast) {
     if (ast.kind === Kind.INT) {
       return new Date(ast.value);
@@ -22,11 +16,17 @@ const DateScalar = new GraphQLScalarType({
 
     return null;
   },
+  parseValue(value) {
+    return value;
+  },
+  serialize(value) {
+    return moment(new Date(value)).format('YYYY/MM/DD');
+  },
 });
 
 export default {
-  typeDef,
   resolvers: {
     Date: DateScalar,
   },
+  typeDef,
 };

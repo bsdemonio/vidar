@@ -7,11 +7,11 @@ type Context = {
 const me = async (_parent: any, _args: any, context: Context) => {
   const { user } = context;
   return {
-    lastName: user.lastName,
-    firstName: user.firstName,
-    email: user.email,
-    id: user.id,
     created: user.created,
+    email: user.email,
+    firstName: user.firstName,
+    id: user.id,
+    lastName: user.lastName,
   };
 };
 

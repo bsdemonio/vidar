@@ -19,8 +19,8 @@ const getMongo = ({
 
   const connect = async () => {
     await mongoose.connect(mongoUrl, {
-      useNewUrlParser: true,
       promiseLibrary: global.Promise,
+      useNewUrlParser: true,
       useUnifiedTopology: true,
     });
 
@@ -77,15 +77,15 @@ const getMongo = ({
   };
 
   return {
+    close,
     connect,
     drop,
-    close,
   };
 };
 
 const mongo = getMongo({
-  mongoUrl: `mongodb://127.0.0.1:27017/${pkg.name}-test`,
   connectionWhitelist: [`mongodb://127.0.0.1:27017/${pkg.name}-test`],
+  mongoUrl: `mongodb://127.0.0.1:27017/${pkg.name}-test`,
 });
 
 global.before(async () => {

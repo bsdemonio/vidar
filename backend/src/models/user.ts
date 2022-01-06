@@ -11,32 +11,32 @@ export type IUser = {
 } & mongoose.Document;
 
 const userSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  hashedPassword: {
-    type: String,
-    required: true,
+  changed: {
+    default: Date.now,
+    type: Date,
   },
   created: {
-    type: Date,
     default: Date.now,
+    type: Date,
   },
-  changed: {
-    type: Date,
-    default: Date.now,
+  email: {
+    required: true,
+    type: String,
+  },
+  firstName: {
+    required: true,
+    type: String,
+  },
+  hashedPassword: {
+    required: true,
+    type: String,
   },
   lastActive: {
     type: Date,
+  },
+  lastName: {
+    required: true,
+    type: String,
   },
 });
 

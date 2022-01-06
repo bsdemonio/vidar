@@ -15,41 +15,41 @@ export type IBill = {
 } & mongoose.Document;
 
 export const billSchema = new mongoose.Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
+  balance: {
     required: true,
-  },
-  name: {
-    type: String,
-    required: true,
+    type: Number,
   },
   category: {
+    required: true,
     type: String,
-    required: true,
-  },
-  installmentsNumber: {
-    type: Number,
-    required: true,
-  },
-  total: {
-    type: Number,
-    required: true,
-  },
-  balance: {
-    type: Number,
-    required: true,
-  },
-  initialDate: {
-    type: Date,
-    required: true,
   },
   finalDate: {
-    type: Date,
     required: true,
+    type: Date,
+  },
+  initialDate: {
+    required: true,
+    type: Date,
+  },
+  installmentsNumber: {
+    required: true,
+    type: Number,
+  },
+  name: {
+    required: true,
+    type: String,
   },
   placeToPay: {
     type: String,
+  },
+  total: {
+    required: true,
+    type: Number,
+  },
+  user: {
+    ref: 'User',
+    required: true,
+    type: Schema.Types.ObjectId,
   },
 });
 
