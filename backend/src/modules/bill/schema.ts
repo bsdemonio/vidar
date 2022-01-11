@@ -26,7 +26,7 @@ const typeDefs = gql`
     category: String
     initialDate: Date
     finalDate: Date
-    installments: [Installment]
+    nextInstallment: Installment
     installmentsNumber: Int
     total: Float
     balance: Float

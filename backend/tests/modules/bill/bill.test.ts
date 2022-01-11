@@ -136,10 +136,6 @@ describe('bill', () => {
             bills {
               name
               total
-              installments {
-                number
-                dueDate
-              }
             }
           }
         `,
