@@ -5,10 +5,12 @@ import installments from './installments';
 import installmentsByBillId from './installments-bill-id';
 import installmentsByDateRange from './installments-date-range';
 import payInstallment from './pay-installment';
+import undoInstallment from './undo-installment';
 
 const resolvers: IResolvers = {
   Mutation: {
     payInstallment,
+    undoInstallment,
   },
   Query: {
     installment,
