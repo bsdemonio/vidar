@@ -33,6 +33,8 @@
 ## Setup Development Env
 
 - Clone the repository
+- Install nvm https://github.com/nvm-sh/nvm#installing-and-updating
+- Run `nvm use` to use the correct version of node supported
 - Run `yarn install` to install dependencies
 - Make a copy of the `.env.sample` file and rename it to `.env`
 - Install mongodb https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
