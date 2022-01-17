@@ -1,3 +1,4 @@
+import { ApolloError } from 'apollo-server-express';
 import moment from 'moment';
 
 import Bill from '../../../models/bill';
@@ -18,6 +19,10 @@ type Args = {
 type Context = {
   user: IUser;
 };
+const recurrenceSpanValid = (recurrenceSpan: string) => {
+  const validSpans = ['y', 'M', 'w', 'd'];
+  return validSpans.includes(recurrenceSpan);
+};
 
 const createBill = async (_parent: any, args: Args, context: Context) => {
   const { user } = context;
@@ -33,7 +38,10 @@ const createBill = async (_parent: any, args: Args, context: Context) => {
   } = args;
 
   const initialDate = new Date(date);
-
+  const isRecurrenceSpanValid = recurrenceSpanValid(recurrenceSpan);
+  if (!isRecurrenceSpanValid) {
+    throw new ApolloError('The recurrenceSpan entered is incorrect.');
+  }
   const finalDate = moment(initialDate)
     .add(installments - 1 * recurrenceNumber, recurrenceSpan)
     .toDate();
