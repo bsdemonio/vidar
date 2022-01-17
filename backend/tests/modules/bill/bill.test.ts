@@ -168,4 +168,34 @@ describe('bill', () => {
         });
     });
   });
+
+  describe('create', () => {
+    it('should throw an error on create bill due to wrong recurrenceSpan', () => {
+      const { token } = loginResponse.data.login;
+      return request({
+        query: `
+        mutation{
+          createBill(
+            name: "internet",
+            amount: 100,
+            installments: 100
+            recurrenceNumber:10
+            recurrenceSpan: "nonValid",
+            date: "01-01-2010",
+            category: "inner-shit",
+            placeToPay: "mercadoLibre"
+          )
+          {
+            id
+          }
+        }        
+        `,
+      })
+        .set('Authorization', `Bearer ${token}`)
+        .expect((res) => {
+          expect(res.body).toHaveProperty('errors');
+          expect(Array.isArray(res.body.errors)).toBe(true);
+        });
+    });
+  });
 });

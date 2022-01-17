@@ -28,6 +28,7 @@ const typeDefs = gql`
     finalDate: Date
     nextInstallment: Installment
     installmentsNumber: Int
+    installments: [Installment]
     total: Float
     balance: Float
     placeToPay: String
