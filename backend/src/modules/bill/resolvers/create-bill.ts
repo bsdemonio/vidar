@@ -19,7 +19,7 @@ type Args = {
 type Context = {
   user: IUser;
 };
-const recurrenceSpanValid = (recurrenceSpan: string) => {
+const isRecurrenceSpanValid = (recurrenceSpan: string) => {
   const validSpans = ['y', 'M', 'w', 'd'];
   return validSpans.includes(recurrenceSpan);
 };
@@ -37,11 +37,12 @@ const createBill = async (_parent: any, args: Args, context: Context) => {
     placeToPay,
   } = args;
 
-  const initialDate = new Date(date);
-  const isRecurrenceSpanValid = recurrenceSpanValid(recurrenceSpan);
-  if (!isRecurrenceSpanValid) {
-    throw new ApolloError('The recurrenceSpan entered is incorrect.');
+  if (!isRecurrenceSpanValid(recurrenceSpan)) {
+    throw new ApolloError(
+      `The recurrenceSpan: ${recurrenceSpan} entered is incorrect. The expected values are :y, M, w, d`
+    );
   }
+  const initialDate = new Date(date);
   const finalDate = moment(initialDate)
     .add(installments - 1 * recurrenceNumber, recurrenceSpan)
     .toDate();
