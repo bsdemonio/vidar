@@ -17,7 +17,7 @@ const undoInstallment = async (_parent: any, args: Args) => {
   if (!bill) throw new Error('Unexpected error');
 
   if (!installment.isPaid) {
-    installment.isPaid = true;
+    installment.isPaid = false;
 
     await installment.save();
 
