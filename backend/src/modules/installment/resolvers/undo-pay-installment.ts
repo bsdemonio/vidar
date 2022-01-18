@@ -17,13 +17,17 @@ const undoPayInstallment = async (_parent: any, args: Args) => {
   if (!bill) throw new Error('Unexpected error');
 
   if (installment.isPaid) {
-    installment.isPaid = false;
+    try {
+      installment.isPaid = false;
 
-    await installment.save();
+      await installment.save();
 
-    bill.balance += installment.amount;
+      bill.balance += installment.amount;
 
-    await bill.save();
+      await bill.save();
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   return installment;
