@@ -17,13 +17,17 @@ const payInstallment = async (_parent: any, args: Args) => {
   if (!bill) throw new Error('Unexpected error');
 
   if (!installment.isPaid) {
-    installment.isPaid = true;
+    try {
+      installment.isPaid = true;
 
-    await installment.save();
+      await installment.save();
 
-    bill.balance -= installment.amount;
+      bill.balance -= installment.amount;
 
-    await bill.save();
+      await bill.save();
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   return installment;

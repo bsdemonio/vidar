@@ -5,7 +5,7 @@ type Args = {
   id: string;
 };
 
-const undoInstallment = async (_parent: any, args: Args) => {
+const undoPayInstallment = async (_parent: any, args: Args) => {
   const { id } = args;
 
   const installment = await Installment.findById(id);
@@ -29,4 +29,4 @@ const undoInstallment = async (_parent: any, args: Args) => {
   return installment;
 };
 
-export default undoInstallment;
+export default undoPayInstallment;
