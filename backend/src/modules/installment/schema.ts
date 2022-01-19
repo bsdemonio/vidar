@@ -10,6 +10,7 @@ const typeDefs = gql`
 
   extend type Mutation {
     payInstallment(id: ID!): Installment @isAuthenticated
+    undoPayInstallment(id: ID!): Installment @isAuthenticated
   }
 
   type Installment {

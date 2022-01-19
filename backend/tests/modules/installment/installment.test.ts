@@ -176,4 +176,27 @@ describe('installment', () => {
         });
     });
   });
+
+  describe('undoPayInstallment', () => {
+    it('should undo pay installment', () => {
+      const { token } = loginResponse.data.login;
+      return request({
+        query: `
+          mutation{
+            undoPayInstallment(
+              id: "${installmentId}"
+            )
+            {
+              id,
+              isPaid
+            }
+          }
+        `,
+      })
+        .set('Authorization', `Bearer ${token}`)
+        .expect((res) => {
+          expect(res.body).toHaveProperty('data.undoPayInstallment.id', installmentId);
+        });
+    });
+  });
 });

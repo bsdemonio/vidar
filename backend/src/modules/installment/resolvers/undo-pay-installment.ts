@@ -5,7 +5,7 @@ type Args = {
   id: string;
 };
 
-const payInstallment = async (_parent: any, args: Args) => {
+const undoPayInstallment = async (_parent: any, args: Args) => {
   const { id } = args;
 
   const installment = await Installment.findById(id);
@@ -16,13 +16,13 @@ const payInstallment = async (_parent: any, args: Args) => {
 
   if (!bill) throw new Error('Unexpected error');
 
-  if (!installment.isPaid) {
+  if (installment.isPaid) {
     try {
-      installment.isPaid = true;
+      installment.isPaid = false;
 
       await installment.save();
 
-      bill.balance -= installment.amount;
+      bill.balance += installment.amount;
 
       await bill.save();
     } catch (error) {
@@ -33,4 +33,4 @@ const payInstallment = async (_parent: any, args: Args) => {
   return installment;
 };
 
-export default payInstallment;
+export default undoPayInstallment;
